@@ -31,7 +31,20 @@ Isaac
 
   <head>
     <style>
-      body{ margin: 0px; }
+      body{ margin:0px;font-size:30px;
+      font-family: "Calibre-Thin", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Helmut, Arial, "Lucida Grande", sans-serif;
+      font-weight: 300;
+      font-style: normal;
+      color: #ffffff; }
+      
+
+      #infoBody{
+      z-index: 999;
+      position: absolute;
+      right: 20px;
+      //width: 20px;
+      background: none;
+    }
       html{ overflow: hidden }
     </style>
 
@@ -170,7 +183,19 @@ Isaac
 
 
 
+
+
       function init(){
+
+
+       infoBody = document.createElement("div");
+
+       infoBody.id ="infoBody";
+        //this.infoBody.innerHTML = "scroll  <br/> &#x2193; &#x2193; &#x2193;"
+       infoBody.innerHTML = "scroll  <br/> &#x2193; &#x2193; &#x2193;"
+
+       document.body.appendChild( infoBody );
+
 
         var w = window.innerWidth;
         var h = window.innerHeight;
@@ -438,6 +463,8 @@ Isaac
         objectControls.update();
         controls.update();
         renderer.render( scene , camera );
+
+        infoBody.style.top = 20 * camera.position.y + "px";
 
 
       }
