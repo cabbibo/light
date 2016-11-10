@@ -1,0 +1,131 @@
+<html>
+
+  <head>
+    <style>
+      body{ margin: 0px; }
+      html{ overflow: hidden }
+    </style>
+  </head>
+
+  <body>
+
+    <script src="../../lib/three.min.js">             </script>
+    <script src="../../lib/jquery.min.js">            </script>
+    <script src="../../lib/ShaderLoader.js">          </script>
+
+    <script src="../../lib/ScrollControls.js">        </script>
+    
+    <script src="../../fonts/UbuntuMono.js">          </script>
+    <script src="../../TextParticles.js">             </script>
+
+    <script src="../../text/passage.js">              </script>
+
+    <script>
+
+
+      var camera, renderer, scene , controls;
+      
+      var textParticles;
+
+
+      var shaders = new ShaderLoader( 'shaders' );
+
+      shaders.shaderSetLoaded = function(){
+        init();
+        animate();
+      }
+
+      shaders.load( 'vs-text' , 'text' , 'vertex'   );
+      shaders.load( 'fs-text' , 'text' , 'fragment' );
+
+      var uniforms = {
+
+        speed:{ type:"f" , value: 0 }
+
+      }
+
+      function init(){
+
+        var w = window.innerWidth;
+        var h = window.innerHeight;
+
+        camera = new THREE.PerspectiveCamera( 65 , w/h , .001 , 4 );
+        camera.position.z = 1;
+
+        controls = new ScrollControls( camera );
+        //controls = new THREE.TrackballControls( camera );
+        scene = new THREE.Scene();
+
+        var dpr = window.devicePixelRatio || 1;
+        renderer = new THREE.WebGLRenderer();
+        renderer.setPixelRatio( dpr );
+        renderer.setSize( window.innerWidth, window.innerHeight );
+
+        document.body.appendChild( renderer.domElement );
+
+
+
+        var font = UbuntuMono( '../../fonts/UbuntuMono.png' );
+
+        var vs = shaders.vertexShaders.text;
+        var fs = shaders.fragmentShaders.text;
+
+
+        title = new TextParticles( "CHAOS" , font , vs , fs , {
+         letterWidth: .05,
+         lineLength: 5,
+         uniforms: uniforms
+        });
+        
+        scene.add( title );
+
+        title.position.x = -title.totalWidth / 2;
+        title.position.z = -.2;
+        title.position.y = .3;
+
+
+        // Passage comes from seperate file
+        textParticles = new TextParticles( passage , font , vs , fs , {
+         letterWidth: .02,
+         lineLength: 80,
+         uniforms: uniforms  
+        });
+        
+        scene.add( textParticles );
+
+        textParticles.position.x = - textParticles.totalWidth / 2;
+
+        console.log( textParticles.totalHeight );
+        controls.minPos     = -textParticles.totalHeight * 1.4;
+        controls.maxPos     =  0;
+        controls.multiplier =  .000003 * textParticles.totalHeight;
+        controls.dampening  = .95;
+
+        window.addEventListener( 'resize', onWindowResize, false );
+
+      }
+
+      
+      function animate(){
+
+        requestAnimationFrame( animate );
+        controls.update();
+        uniforms.speed.value = controls.speed;
+        renderer.render( scene , camera );
+
+      }
+
+
+      function onWindowResize() {
+
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+
+				renderer.setSize( window.innerWidth, window.innerHeight );
+
+			}
+
+    </script>
+
+  </body>
+</html>

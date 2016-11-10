@@ -1,0 +1,140 @@
+<html>
+
+  <head>
+    <style>
+      body{ margin: 0px; }
+      html{ overflow: hidden }
+    </style>
+  </head>
+
+  <body>
+
+    <script src="../../lib/three.min.js">             </script>
+    <script src="../../lib/jquery.min.js">            </script>
+    <script src="../../lib/ShaderLoader.js">          </script>
+
+    <script src="../../lib/ScrollControls.js">        </script>
+    
+    <script src="../../fonts/PTMono.js">              </script>
+    <script src="../../TextParticles.js">             </script>
+
+    <script src="../../text/passage.js">              </script>
+
+    <script>
+
+      var T = THREE;
+
+
+      var camera, renderer, scene , controls , clock;
+      
+      var textParticles;
+
+
+      var time = { type:"f" , value: 1 }
+      var shaders = new ShaderLoader( 'shaders' );
+
+      shaders.shaderSetLoaded = function(){
+        init();
+        animate();
+      }
+
+      shaders.load( 'vs-text' , 'text' , 'vertex'   );
+      shaders.load( 'fs-text' , 'text' , 'fragment' );
+
+      function init(){
+
+        var w = window.innerWidth;
+        var h = window.innerHeight;
+
+        camera = new THREE.PerspectiveCamera( 65 , w/h , .001 , 4 );
+        camera.position.z = 1;
+
+        controls = new ScrollControls( camera );
+        
+        clock = new THREE.Clock();
+        
+        scene = new THREE.Scene();
+
+
+        var dpr = window.devicePixelRatio || 1;
+        renderer = new THREE.WebGLRenderer();
+        renderer.setPixelRatio( dpr );
+        renderer.setSize( window.innerWidth, window.innerHeight );
+
+        document.body.appendChild( renderer.domElement );
+
+
+
+        var font = PTMono( '../../fonts/PTMono.png' );
+
+        var vs = shaders.vertexShaders.text;
+        var fs = shaders.fragmentShaders.text;
+
+
+        title = new TextParticles( "Less Boring, But Still Boring" , font , vs , fs , {
+         letterWidth: .05,
+         lineLength: 29,
+         uniforms:{
+          time: time,
+         }  
+        });
+        
+
+        title.position.x = -title.totalWidth / 2;
+       // title.position.z = -.2;
+        title.position.y = .3;
+
+
+
+
+        // Passage comes from seperate file
+        textParticles = new TextParticles( passage , font , vs , fs , {
+         letterWidth: .02,
+         lineLength: 80,
+         uniforms:{
+          time: time,
+         }  
+        });
+        
+        scene.add( textParticles );
+        scene.add( title );
+
+        //textParticles.material.uniforms.time.value = 1.;
+
+        textParticles.position.x = - textParticles.totalWidth / 2;
+
+        controls.minPos     = -textParticles.totalHeight * 1.2;
+        controls.maxPos     =  0;
+        controls.multiplier =  .000003 * textParticles.totalHeight;
+        controls.dampening  = .95;
+
+        window.addEventListener( 'resize', onWindowResize, false );
+
+      }
+
+      
+      function animate(){
+
+        requestAnimationFrame( animate );
+
+        time.value += clock.getDelta();
+
+        controls.update();
+        renderer.render( scene , camera );
+
+      }
+
+
+      function onWindowResize() {
+
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+
+				renderer.setSize( window.innerWidth, window.innerHeight );
+
+			}
+
+    </script>
+
+  </body>
+</html>
