@@ -10,7 +10,8 @@ function Light( rayLength , rayWidth , numRays){
     time:     { type:"f"  , value : 0             },
     progress: { type:"f"  , value : 0             },
     iModelMat:{ type:"m4" , value: new THREE.Matrix4() },
-    breakingVal: { type:"f" , value: 0 }
+    breakingVal: { type:"f" , value: 0 },
+    bwVal: { type:"f" , value: 0 },
 
   }
 
@@ -94,6 +95,11 @@ Light.prototype.setBreakingVals = function( sb , eb ){
   this.endBreak = eb;
 }
 
+Light.prototype.setBWVals = function( sb , eb ){
+  this.startBW = sb;
+  this.endBW = eb;
+}
+
 Light.prototype.setBreakingShimmer = function( amount ){
   this.breakingShimmer = amount;
 }
@@ -122,6 +128,13 @@ Light.prototype.update = function(){
 
     var breaking  = this.smoothstep( this.startBreak , this.endBreak , camera.position.y  );
     this.uniforms.breakingVal.value = breaking;
+
+  }
+
+  if(this.startBW){
+
+    var bw  = this.smoothstep( this.startBW , this.endBW , camera.position.y  );
+    this.uniforms.bwVal.value = bw;
 
   }
 

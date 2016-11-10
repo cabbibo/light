@@ -324,6 +324,40 @@ Tendrils of light extend from node to shining node. And in that light, in that l
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 At the center of our souls, there is a shimmering light. It doesn’t matter who, we all have that light.
 
 
