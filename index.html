@@ -20,12 +20,15 @@
     <script src="TextParticles.js">             </script>
 
     <script src="text/passage.js">              </script>
-    <script src="text/love.js">              </script>
+    <script src="text/love.js">                 </script>
 
-    <script src="Light.js">              </script>
-    <script src="js/crystalGeo.js">              </script>
-    <script src="js/RayGeo.js">              </script>
-    <script src="js/Link.js">              </script>
+    <script src="Light.js">                     </script>
+    <script src="Connections.js">               </script>
+
+    <script src="js/crystalGeo.js">             </script>
+    <script src="js/RayGeo.js">                 </script>
+    <script src="js/ConnectionGeo.js">          </script>
+    <script src="js/Link.js">                   </script>
    
 
     <script>
@@ -60,6 +63,9 @@
       shaders.load( 'fs-ray' , 'ray' , 'fragment' );
 
 
+      shaders.load( 'vs-connections' , 'connections' , 'vertex'   );
+      shaders.load( 'fs-connections' , 'connections' , 'fragment' );
+
       var uniforms = {
         
         dT:       { type:"f"  , value : 0             },
@@ -85,6 +91,16 @@
         href: "https://www.mlfa.org/donate/"
       });
 
+      linkInfo.push({
+        title: "Donate to Planned Parenthood",
+        href: "https://secure.ppaction.org/site/Donation2?df_id=12913&12913.donation=form1&s_src=Evergreen_c3_PPNonDirected_banner&_ga=1.100212446.1135286350.1478760050"
+      });
+      http://jezebel.com/a-list-of-pro-women-pro-immigrant-pro-earth-anti-big-1788752078
+
+      linkInfo.push({
+        title: "A List of Organizations That Need Your Support",
+        href: "http://jezebel.com/a-list-of-pro-women-pro-immigrant-pro-earth-anti-big-1788752078"
+      });
       linkInfo.push({
         title: "Share on Twitter",
         href: "https://www.mlfa.org/donate/"
@@ -161,7 +177,7 @@
 
         textParticles.position.x = - textParticles.totalWidth / 2;
 
-        controls.minPos     = -textParticles.totalHeight * 1.8;
+        controls.minPos     = -20.4;
         controls.maxPos     =  0;
         controls.multiplier =  .000003 * textParticles.totalHeight;
         controls.dampening  = .95;
@@ -171,7 +187,7 @@
         for( var i = 0; i < linkInfo.length; i++ ){
 
          links[i] = new Link(font , linkInfo[i].title ,linkInfo[i].href  );
-         links[i].add( new THREE.Vector3( 0,-i*.1 - 20 , 0));
+         links[i].add( new THREE.Vector3( 0,-i*.15 - 20 , 0));
 
 
 
@@ -280,6 +296,32 @@
 
         }
 
+        ninthLight = new Light(1 , .3 , 30 );
+
+        ninthLight.add();
+
+        var l = new THREE.Vector3( 0 , -18.4 ,-.5 );
+        ninthLight.setPos( l);
+
+
+        var lightsToConnect = [];
+
+       /* for( var i = 0; i < seventhLights.length; i++ ){
+          lightsToConnect.push(seventhLights[i])
+        }*/
+
+        for( var i = 0; i < eighthLights.length; i++ ){
+          lightsToConnect.push(eighthLights[i])
+        }
+
+        lightsToConnect.push( ninthLight );
+
+        connections = new Connections( lightsToConnect );
+
+        connections.add();
+        connections.setConnectingVals(-14 , -16);
+       // sixthLight.setRayFill( -10 , -10.5 );
+
 
 
 
@@ -307,6 +349,10 @@
         for( var i = 0; i < eighthLights.length; i++ ){
           eighthLights[i].update();
         }
+
+        ninthLight.update();
+
+        connections.update();
 
         objectControls.update();
         controls.update();

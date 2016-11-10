@@ -16,7 +16,7 @@ this.href = href;
     shaders.vs.title , 
     shaders.fs.title , 
     {
-      letterWidth: .018,
+      letterWidth: .03,
       lineLength: l,
     }    
   );
@@ -80,7 +80,7 @@ Link.prototype.add = function( position ){
   this.body.add( this.bg );
 
   this.title.position.x =  -this.title.totalWidth /2;
-  this.title.position.y =   this.title.totalHeight/ 1.5;
+  this.title.position.y =   this.title.totalHeight/ 1.3;
 
   this.body.position.copy( position );
 

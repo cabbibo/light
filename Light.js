@@ -4,6 +4,7 @@ function Light( rayLength , rayWidth , numRays){
   if( !rayWidth ){ rayWidth = .3; }
   if( !numRays ){ numRays = 30; }
 
+  this.randID = Math.random();
   this.uniforms = {
         
     dT:       { type:"f"  , value : 0             },
@@ -40,7 +41,9 @@ function Light( rayLength , rayWidth , numRays){
 
   this.mesh = new THREE.Mesh( this.geo , this.mat );
   this.mesh.scale.multiplyScalar( 1 );
-  this.mesh.rotation.x = Math.PI/2;
+  this.mesh.rotation.x = this.randID * 2 * Math.PI;
+  this.mesh.rotation.y = this.randID * 2 * Math.PI;
+  this.mesh.rotation.z = this.randID * 2 * Math.PI;
 
   this.rayGeo = new RayGeo( rayLength , rayWidth , numRays );
   this.rayMat = new THREE.ShaderMaterial({
@@ -120,9 +123,9 @@ Light.prototype.smoothstep = function(min, max, value) {
 
 Light.prototype.update = function(){
 
-  this.mesh.rotation.x += .001;
-  this.mesh.rotation.y += .0018;
-  this.mesh.rotation.z += .0021;
+  this.mesh.rotation.x += .001 * (this.randID * .2 + .8);
+  this.mesh.rotation.y += .0018* (this.randID * .2 + .8);
+  this.mesh.rotation.z += .0021* (this.randID * .2 + .8);
 
   if(this.startBreak){
 
