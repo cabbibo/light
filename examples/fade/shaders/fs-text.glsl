@@ -28,13 +28,15 @@ void main(){
   
   float distance = texture2D( t_text , sCoord ).a;
 
-  float lum = smoothstep( 0.4 - smoothing , 0.4 + smoothing , distance );
+  float lum = smoothstep( 0.3 - smoothing , 0.3 + smoothing , distance );
   float alpha = lum;
 
   if( distance < .1 ){  alpha = 0.; }
+
+  float fallOffVal =  27. / pow( vDist , 8. );
  
 
-  gl_FragColor = vec4(col * 20. / pow( vDist , 8. ) , alpha * opacity );
+  gl_FragColor = vec4(col * fallOffVal , alpha * opacity );
 
 
 }

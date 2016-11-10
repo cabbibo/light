@@ -60,6 +60,7 @@ function Light( rayLength , rayWidth , numRays){
 
   }); 
 
+  this.rayMat.depthTest = false;
 
   this.ray = new THREE.Mesh(this.rayGeo, this.rayMat);
   //scene.add( this.ray );
@@ -78,7 +79,7 @@ Light.prototype.setPos = function( p ){
 Light.prototype.createGeometry = function(){
 
 
-  var geo = CrystalGeo( .2 , 2 , 1 , .1); 
+  var geo = CrystalGeo( .3 , 3 , 1 , .2); 
   return geo;
 
 

@@ -1,4 +1,33 @@
+<!--
+
+
+If you are reading this. It is because you probably code.
+
+Chances are that also means that you, like me, exist at the pinnacle of privledge.
+It saddens me in many ways, that I feel like this is the best change I can make.
+
+Sure, I've donated a TON of money to the organizations mentioned in this, but still,
+there is more I can do, more that I should have done. I can be better than I am.
+
+You can be better than you are.
+
+Make something, no matter how small, no matter if it only reaches 5 people
+Just start trying to make a change. It is a muscle to participate, to try and
+enact change in a world that seems so uncaring.
+
+But you can do it!
+
+I love you.
+Isaac
+
+
+-->
+
+
+
 <html>
+
+
 
   <head>
     <style>
@@ -24,11 +53,13 @@
 
     <script src="Light.js">                     </script>
     <script src="Connections.js">               </script>
+    <script src="Darkness.js">                  </script>
 
     <script src="js/crystalGeo.js">             </script>
     <script src="js/RayGeo.js">                 </script>
     <script src="js/ConnectionGeo.js">          </script>
     <script src="js/Link.js">                   </script>
+    <script src="js/DarknessGeo.js">            </script>
    
 
     <script>
@@ -40,6 +71,7 @@
       
       var textParticles;
 
+      var font = PTMono( 'fonts/PTMono.png' );
 
       var time = { type:"f" , value: 1 }
       var shaders = new ShaderLoader( 'examples/fade/shaders' );
@@ -61,6 +93,12 @@
 
       shaders.load( 'vs-ray' , 'ray' , 'vertex'   );
       shaders.load( 'fs-ray' , 'ray' , 'fragment' );
+
+      shaders.load( 'vs-darkness' , 'darkness' , 'vertex'   );
+      shaders.load( 'fs-darkness' , 'darkness' , 'fragment' );
+
+
+
 
 
       shaders.load( 'vs-connections' , 'connections' , 'vertex'   );
@@ -139,7 +177,7 @@
         objectControls = new ObjectControls( camera );
 
 
-        var font = PTMono( 'fonts/PTMono.png' );
+        
 
         var vs = shaders.vertexShaders.text;
         var fs = shaders.fragmentShaders.text;
@@ -163,8 +201,8 @@
 
         // Passage comes from seperate file
         textParticles = new TextParticles( iloveyou , font , vs , fs , {
-         letterWidth: .02,
-         lineLength: 80,
+         letterWidth: .03,
+         lineLength: 50,
          uniforms:{
           time: time,
          }  
@@ -177,7 +215,7 @@
 
         textParticles.position.x = - textParticles.totalWidth / 2;
 
-        controls.minPos     = -20.4;
+        controls.minPos     = -30.7;
         controls.maxPos     =  0;
         controls.multiplier =  .000003 * textParticles.totalHeight;
         controls.dampening  = .95;
@@ -187,12 +225,13 @@
         for( var i = 0; i < linkInfo.length; i++ ){
 
          links[i] = new Link(font , linkInfo[i].title ,linkInfo[i].href  );
-         links[i].add( new THREE.Vector3( 0,-i*.15 - 20 , 0));
+         links[i].add( new THREE.Vector3( 0,-i*.15 - 30.3, 0));
 
 
 
 
         }
+
 
 
 
@@ -209,8 +248,16 @@
 
         secondLight.add();
 
-        var l = new THREE.Vector3( 0 , -2 ,-.5 );
+        var l = new THREE.Vector3( 0 , -2 -1 ,-.2 );
         secondLight.setPos( l);
+
+
+        darkness1 = new Darkness();
+        darkness1.add();
+        darkness1.mesh.position.copy( new THREE.Vector3(0, -2-1,-.1))
+        darkness1.setDarkeningVals( -1.8 -1, -2.2-1);
+
+      // darkness1.setDarkeningShimmer( .2);
 
         //secondLight.setBreakingShimmer( .01 );
 
@@ -221,7 +268,7 @@
 
         thirdLight.add();
 
-        var l = new THREE.Vector3( 0 , -3.8 ,-.5 );
+        var l = new THREE.Vector3( 0 , -3.8 -2.4,-.2 );
         thirdLight.setPos( l);
 
         thirdLight.setBreakingShimmer( .01 );
@@ -231,32 +278,37 @@
 
         fourthLight.add();
 
-        var l = new THREE.Vector3( 0 , -5 ,-.5 );
+        var l = new THREE.Vector3( 0 , -5 -3.6,-.4 );
         fourthLight.setPos( l);
 
-        fourthLight.setBWVals( -4.8 , -5.2 );
+        fourthLight.setBWVals( -4.8-3.6 , -5.2 -3.6);
+
+        darkness2 = new Darkness();
+        darkness2.add();
+        darkness2.mesh.position.copy( new THREE.Vector3(0, -5-3.5,-.2))
+        darkness2.setDarkeningVals( -4.5 -3.6, -6-3.6);
 
 
 
-        fifthLight = new Light(3.8, .6 , 30 );
+        fifthLight = new Light(5, .6, 50 );
 
         fifthLight.add();
 
-        var l = new THREE.Vector3( 0 , -6.2 ,-.5 );
+        var l = new THREE.Vector3( 0 , -6.2-5.1 ,-.5 );
         fifthLight.setPos( l);
 
-        fifthLight.setRayFill( -6 , -9.5 );
+        fifthLight.setRayFill( -6-5.1 , -9.5-5.1 );
 
 
 
-        sixthLight = new Light(1 , .3 , 30 );
+        sixthLight = new Light(1 , .2 , 30 );
 
         sixthLight.add();
 
-        var l = new THREE.Vector3( 0 , -9.8 ,-.5 );
+        var l = new THREE.Vector3( 0 , -9.8-5.1,-.5 );
         sixthLight.setPos( l);
 
-        sixthLight.setRayFill( -10 , -10.5 );
+        sixthLight.setRayFill( -10-5.1, -10.5-5.1);
 
 
         seventhLights = [];
@@ -269,7 +321,7 @@
           seventhLights[i].add();
 
 
-          var h= -10.5 - Math.random() * 2 ;
+          var h= -10.5-5.7- Math.random() * 3.5 ;
           var l = new THREE.Vector3( (Math.random() - .5) * 4 , h ,-.5 - Math.random() * 2 );
           seventhLights[i].setPos( l);
 
@@ -287,7 +339,7 @@
           eighthLights[i].add();
 
 
-          var h= -13 - Math.random() * 3;
+          var h= -13-8 - Math.random() * 4;
           var l = new THREE.Vector3( (Math.random() - .5) * 4 , h ,-.5 - Math.random() * 4 );
           eighthLights[i].setPos( l);
 
@@ -296,11 +348,12 @@
 
         }
 
-        ninthLight = new Light(1 , .3 , 30 );
+        ninthLight = new Light(5 , .05 , 200 );
 
         ninthLight.add();
 
-        var l = new THREE.Vector3( 0 , -18.4 ,-.5 );
+        var l = new THREE.Vector3( 0 , -18.2 -9,0 );
+        ninthLight.setRayFill( -18.2-9 , -20-9 );
         ninthLight.setPos( l);
 
 
@@ -319,7 +372,7 @@
         connections = new Connections( lightsToConnect );
 
         connections.add();
-        connections.setConnectingVals(-14 , -16);
+        connections.setConnectingVals(-14-7 , -17-8);
        // sixthLight.setRayFill( -10 , -10.5 );
 
 
@@ -335,6 +388,10 @@
         requestAnimationFrame( animate );
 
         time.value += clock.getDelta();
+
+        darkness1.update();
+        darkness2.update();
+
         firstLight.update();
         secondLight.update();
         thirdLight.update();
