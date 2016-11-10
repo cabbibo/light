@@ -242,19 +242,27 @@ void main(){
 
   vec3 col = vec3( 0. );
 
+  vec3 lightPos = vCam + vec3( 1. , 1. ,0. );
+  vec3 lightDir = normalize(lightPos - ro);
+  vec3 refl = reflect( lightDir , vNorm );
+
+  float match = dot( refl , rd );
+
   for( int i  = 0; i < 5; i++ ){
     vec3 pos =  ro +  .04 * rd * float(i);
     
     float den = noiseFunction( pos );
     //float dif = clamp( (noiseFunction(pos+eps*light)-den)/eps, 0.0, 1.0 );
 
-    vec3 rainbow =hsv( den * 3. , .7, 1.);
+    vec3 rainbow =hsv( den * 3. , .7 , 1. );
     vec3 dark = vec3( den * den * den * 10.);
     col += mix( rainbow , dark , bwVal);// hsv( sin( dif * 20.) , 1. , 1. ) * dif * dif;// / float( 10. );
 
   }
 
   col /= 4.;
+  col += vec3( 1., .6 , .2 ) * pow( match, 20.);
+  //col *= (1.-match)* (1.-match) * (1.-match);
 
   
 

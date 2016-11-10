@@ -9,7 +9,7 @@ varying float vDist;
 
 varying vec3 vMPos;
 
-const float smoothing = 1. / 8.0;
+const float smoothing = 1.;/// 2.0;
 
 void main(){
 
@@ -28,7 +28,7 @@ void main(){
   
   float distance = texture2D( t_text , sCoord ).a;
 
-  float lum = smoothstep( 0.3 - smoothing , 0.3 + smoothing , distance );
+  float lum = smoothstep( 0., 0.8 , distance );
   float alpha = lum;
 
   if( distance < .1 ){  alpha = 0.; }
