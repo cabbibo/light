@@ -9,6 +9,8 @@ varying vec3 vNorm;
 
 varying vec2 vUv;
 
+uniform float breakingVal;
+uniform float bwVal;
 
 
 const float MAX_TRACE_DISTANCE = 2.0;             // max trace distance
@@ -246,7 +248,9 @@ void main(){
     float den = noiseFunction( pos );
     //float dif = clamp( (noiseFunction(pos+eps*light)-den)/eps, 0.0, 1.0 );
 
-    col += hsv( den * 3. , .5, 1.);// hsv( sin( dif * 20.) , 1. , 1. ) * dif * dif;// / float( 10. );
+    vec3 rainbow =hsv( den * 3. , .5, 1.);
+    vec3 dark = vec3( den * den * den * 10.);
+    col += mix( rainbow , dark , bwVal);// hsv( sin( dif * 20.) , 1. , 1. ) * dif * dif;// / float( 10. );
 
   }
 
