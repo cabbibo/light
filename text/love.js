@@ -164,7 +164,7 @@ It sings Hallelujah, even though the darkness surrounds it. Even though it choos
 
 
 
-It tendrils of quiet strength reach out, far into the distance. Far beyond where the light believed it could reach. 
+Its tendrils of quiet strength reach out, far into the distance. Far beyond where the light believed it could reach.
 
 
 Deep, deep into the abyss it extends. 
@@ -246,13 +246,13 @@ And those lights begin to sing.
 
 
 
-Even further there are those lights who the darkness as all but consumed.
+Even further there are those lights who the darkness has all but consumed.
 
 
 They felt like an addiction to hatred, a contract written with blood and violence was the only way to escape their pain. 
 
 
-Though they are consumed by the darkness, they are not Of it. They too can hear the song being song.
+Though they are consumed by the darkness, they are not Of it. They too can hear the song being sung.
 
 
 They too, even now, can still choose to sing.
